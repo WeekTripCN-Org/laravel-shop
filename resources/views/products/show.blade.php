@@ -41,7 +41,12 @@
                   <span class="stock"></span>
                 </div>
                 <div class="buttons">
-                  <button class="btn btn-success btn-favor">❤收藏</button>
+                  @if ($favored)
+                  <button class="btn btn-success btn-disfavor">取消收藏</button>
+                  @else
+                  <button class="btn btn-success btn-favor">❤收藏</button>    
+                  @endif
+                  
                   <button class="btn btn-primary btn-add-to-cart">加入购物车</button>
                 </div>
               </div>
@@ -86,6 +91,34 @@
       $('.sku-btn').click(function(){
         $('.product-info .price span').text($(this).data('price'));
         $('.product-info .stock').text('库存：' + $(this).data('stock') + '件');
+      });
+
+      $('.btn-favor').click(function() {
+        // 发起一个 post ajax 请求，请求url通过后端的 route() 函数生成
+        axios.post('{{ route('products.favor', ['product' => $product->id]) }}')
+          .then(function() {
+            // 请求成功会执行这个回调
+            swal('操作成功', '', 'success');
+          }, function(error) {
+            // 如果返回 401 代表没登录
+            if (error.response && error.response.status === 401) {
+              swal('请先登录', '', 'error');
+            } else if (error.response && error.response.data.msg) {
+              swal(error.response.data.msg, '', 'error');
+            } else {
+              swal('系统错误', '', 'error');
+            }
+          });
+      });
+
+      $('.btn-disfavor').click(function() {
+        axios.delete('{{ route('products.disfavor', ['product' => $product->id]) }}')
+          .then(function() {
+            swal('操作成功', '', 'success')
+              .then(function() {
+                location.reload();
+              });
+          });
       });
     });
   </script>
