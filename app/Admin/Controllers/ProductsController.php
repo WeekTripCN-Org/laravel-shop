@@ -29,21 +29,6 @@ class ProductsController extends Controller
     }
 
     /**
-     * Show interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
-    }
-
-    /**
      * Edit interface.
      *
      * @param mixed $id
@@ -53,7 +38,7 @@ class ProductsController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
+            ->header('编辑商品')
             ->description('description')
             ->body($this->form()->edit($id));
     }
@@ -67,7 +52,7 @@ class ProductsController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
+            ->header('创建商品')
             ->description('description')
             ->body($this->form());
     }
@@ -106,31 +91,6 @@ class ProductsController extends Controller
     }
 
     /**
-     * Make a show builder.
-     *
-     * @param mixed $id
-     * @return Show
-     */
-    protected function detail($id)
-    {
-        $show = new Show(Product::findOrFail($id));
-
-        $show->id('Id');
-        $show->title('Title');
-        $show->description('Description');
-        $show->image('Image');
-        $show->on_sale('On sale');
-        $show->rating('Rating');
-        $show->sold_count('Sold count');
-        $show->review_count('Review count');
-        $show->price('Price');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
-
-        return $show;
-    }
-
-    /**
      * Make a form builder.
      *
      * @return Form
@@ -139,15 +99,27 @@ class ProductsController extends Controller
     {
         $form = new Form(new Product);
 
-        $form->text('title', 'Title');
-        $form->textarea('description', 'Description');
-        $form->image('image', 'Image');
-        $form->switch('on_sale', 'On sale')->default(1);
-        $form->decimal('rating', 'Rating')->default(5.00);
-        $form->number('sold_count', 'Sold count');
-        $form->number('review_count', 'Review count');
-        $form->decimal('price', 'Price');
+        $form->text('title', '商品名称')->rules('required');
+        
+        $form->image('image', '封面图片')->rules('required|image');
 
+        $form->editor('description', '商品描述')->rules('required');
+
+        $form->radio('on_sale', '上架')->options(['1' => '是', '0' => '否'])->default(0);
+
+        // 添加一对多的关联模型
+        $form->hasMany('skus', 'SKU 列表', function(Form\NestedForm $form) {
+            $form->text('title', 'SKU 名称')->rules('required');
+            $form->text('description', 'SKU 描述')->rules('required');
+            $form->text('price', '单价')->rules('required|numeric|min:0.01');
+            $form->text('stock', '剩余库存')->rules('required|integer|min:0');
+        });
+
+        // 定义事件回调，当模型即将保存时会触发这个回调
+        // 在保存商品之前拿到所有 SKU 中最低的价格作为商品的价格，然后通过 $form->model()->price 存入到商品模型中
+        $form->saving(function (Form $form) {
+            $form->model()->price = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->min('price') ?: 0;
+        });
         return $form;
     }
 }
