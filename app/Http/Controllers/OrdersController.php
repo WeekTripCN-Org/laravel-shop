@@ -9,6 +9,7 @@ use App\Models\UserAddress;
 use App\Models\Order;
 use Carbon\Carbon;
 use App\Exceptions\InvalidRequestException;
+use App\Jobs\CloseOrder;
 
 class OrdersController extends Controller
 {
@@ -67,6 +68,11 @@ class OrdersController extends Controller
 
             return $order;
         });
+
+        // 触发关闭订单任务
+        // 需要执行 php artisan queue:work
+        $this->dispatch(new CloseOrder($order, config('app.order_ttl')));
+
         return $order;
     }
 }
