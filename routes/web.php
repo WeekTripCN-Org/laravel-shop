@@ -29,6 +29,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     // 添加购物车 {{{
     Route::post('cart', 'CartController@add')->name('cart.add');
     // }}}
+
+    // 查看购物车
+    Route::get('cart', 'CartController@index')->name('cart.index');
+    // 删除
+    Route::delete('cart/{sku}', 'CartController@remove')->name('cart.remove');
 });
 
 // 和我的收藏冲突了，移到最下面
