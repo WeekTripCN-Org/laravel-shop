@@ -55,6 +55,34 @@
               @endforeach
             </tbody>
           </table>
+
+          {{-- 地址 --}}
+          <div>
+            <form class="form-horizontal" role="form" id="order-form">
+              <div class="form-group row">
+                <label class="col-form-label col-sm-3 text-md-right">选择收货地址</label>
+                <div class="col-sm-9 col-md-7">
+                  <select name="address" class="form-control">
+                    @foreach ($addresses as $address)
+                      <option value="{{ $address->id }}">{{ $address->full_address }} {{ $address->contact_name }} {{ $address->contact_phone }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-form-label col-sm-3 text-md-right">备注</label>
+                <div class="col-sm-9 col-md-7">
+                  <textarea name="remark" rows="3" class="form-control"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="offset-sm-3 col-sm-3">
+                  <button type="button" class="btn btn-primary btn-create-order">提交订单</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
         </div>
       </div>
     </div>
@@ -92,6 +120,54 @@
         $('input[name=select][type=checkbox]:not([disabled])').each(function() {
           $(this).prop('checked', checked);
         });
+      });
+
+      // 创建订单按钮
+      $('.btn-create-order').click(function() {
+        // 构建请求参数，将用户选择的地址 id 和备注内容写入请求参数
+        var req = {
+          address_id: $('#order-form').find('select[name=address]').val(),
+          items: [],
+          remark: $('#order-form').find('textarea[name=remark]').val()
+        };
+        // 遍历 <table> 标签内所有带有data-id属性的 tr 标签
+        $('table tr[data-id]').each(function() {
+          // 获取当前行的单选框
+          var $checkbox = $(this).find('input[name=select][type=checkbox]');
+          // 如果单选框被禁用或者没有被选中则跳过
+          if ($checkbox.prop('disabled') || !$checkbox.prop('checked')) {
+            return;
+          }
+          // 获取当前行中数量输入框
+          var $input = $(this).find('input[name=amount]');
+          // 如果为0或者不是一个数字，则跳过
+          if($input.val() == 0 || isNaN($input.val())) {
+            return;
+          }
+          // 把sku id 和数量存入请求参数数组
+          req.items.push({
+            sku_id: $(this).data('id'),
+            amount: $input.val(),
+          })
+        });
+        axios.post('{{ route('orders.store') }}', req) 
+          .then(function(response) {
+            swal('订单提交成功', '', 'success');
+          }, function(error) {
+            if (error.response.status === 422) {
+              // 用户输入校验失败
+              var html = '<div>';
+              _.each(error.response.data.errors, function(errors) {
+                _.each(errors, function(error) {
+                  html += error + '<br>';
+                })
+              });
+              html += '</div>';
+              swal({content:$(html)[0], icon:'error'})
+            } else {
+              swal('系统错误', '', 'error');
+            }
+          });
       });
     });
   </script>

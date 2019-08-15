@@ -34,6 +34,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('cart', 'CartController@index')->name('cart.index');
     // 删除
     Route::delete('cart/{sku}', 'CartController@remove')->name('cart.remove');
+
+    Route::post('orders', 'OrdersController@store')->name('orders.store');
 });
 
 // 和我的收藏冲突了，移到最下面
