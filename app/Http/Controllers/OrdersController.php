@@ -86,4 +86,12 @@ class OrdersController extends Controller
         
         return view('orders.index', ['orders' => $orders]);
     }
+
+    // 订单详情
+    public function show(Order $order, Request $request)
+    {   
+        // 权限控制，只能查看自己的订单
+        $this->authorize('own', $order);
+        return view('orders.show', ['order' => $order->load(['items.productSku', 'items.product'])]);
+    }
 }
