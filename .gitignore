@@ -12,3 +12,5 @@ yarn-error.log
 .vscode/launch.json
 public/mix-manifest.json
 public/fonts
+resources/wechat_pay/aliclient_key.pem
+resources/wechat_pay/apiclient_cert.pem
