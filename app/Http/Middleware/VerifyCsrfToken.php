@@ -21,5 +21,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'payment/alipay/notify', // 支付宝服务器调用，不需要 CSRF Token
         'payment/wechat/notify', // 微信服务端回调
+        'payment/wechat/refund_notify',
     ];
 }
