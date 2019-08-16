@@ -116,4 +116,9 @@ class Order extends Model
         } while (self::query()->where('refund_no', $no)->exists());
         return $no;
     }
+
+    public function couponCode()
+    {
+        return $this->belongsTo(CouponCode::class);
+    }
 }
