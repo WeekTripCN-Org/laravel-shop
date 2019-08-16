@@ -61,7 +61,7 @@
                     aria-selected="true">商品详情</a>
                 </li>
                 <li class="nav-item">
-                  <a href="#product-detail-tab" class="nav-link"
+                  <a href="#product-reviews-tab" class="nav-link"
                     aria-controls="product-reviews-tab"
                     role="tab"
                     data-toggle="tab"
@@ -70,11 +70,35 @@
               </ul>
 
               <div class="tab-content">
-                <div class="tab-pane active" id="product-detail-tab" role="tabpanel">
+                <div role="tabpanel" class="tab-pane active" id="product-detail-tab">
                   {{-- 原样输出不需要 Html 转义 --}}
                   {!! $product->description !!}
                 </div>
-                <div class="tab-pane" id="product-reviews-tab" role="tabpanel"></div>
+                <div role="tabpanel" class="tab-pane" id="product-reviews-tab">
+                  {{-- 评论列表 --}}
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <td>用户</td>
+                      <td>商品</td>
+                      <td>评分</td>
+                      <td>评价</td>
+                      <td>时间</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($reviews as $review)
+                      <tr>
+                        <td>{{ $review->order->user->name }}</td>
+                        <td>{{ $review->productSku->title }}</td>
+                        <td>{{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}</td>
+                        <td>{{ $review->review }}</td>
+                        <td>{{ $review->reviewed_at->format('Y-m-d H:i') }}</td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
 
