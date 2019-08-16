@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InvalidRequestException;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
 use App\Models\UserAddress;
@@ -36,5 +37,19 @@ class OrdersController extends Controller
         // 权限控制，只能查看自己的订单
         $this->authorize('own', $order);
         return view('orders.show', ['order' => $order->load(['items.productSku', 'items.product'])]);
+    }
+
+    public function received(Order $order, Request $request)
+    {
+        $this->authorize('own', $order);
+
+        if ($order->ship_status !== Order::SHIP_STATUS_DELIVERED) {
+            throw new InvalidRequestException('发货状态不正确');
+        }
+
+        $order->update(['ship_status' => Order::SHIP_STATUS_RECEIVED]);
+
+        // 返回原页面
+        return $order;
     }
 }
