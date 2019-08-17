@@ -144,7 +144,6 @@
           remark: $('#order-form').find('textarea[name=remark]').val(),
           coupon_code: $('input[name=coupon_code]').val(),  // 优惠码
         };
-        console.log(req);
         // 遍历 <table> 标签内所有带有data-id属性的 tr 标签
         $('table tr[data-id]').each(function() {
           // 获取当前行的单选框
@@ -181,6 +180,8 @@
               });
               html += '</div>';
               swal({content:$(html)[0], icon:'error'})
+            } else if (error.response.status === 403) {
+              swal(error.response.data.msg, '', 'error');
             } else {
               swal('系统错误', '', 'error');
             }
