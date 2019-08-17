@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\CouponCode;
+use App\Models\Product;
+use App\Models\ProductSku;
 
 class OrdersSeeder extends Seeder
 {

@@ -114,7 +114,7 @@ class CouponCode extends Model
     /**
      * 计算优惠后金额
      */
-    public function getAjustedPrice($orderAmount)
+    public function getAdjustedPrice($orderAmount)
     {
         // 固定金额
         if ($this->type === self::TYPE_FIXED) {
