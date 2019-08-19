@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Exceptions\InvalidRequestException;
 use App\Models\OrderItem;
+// use App\Services\CategoryService;
 
 class ProductsController extends Controller
 {
@@ -62,7 +63,8 @@ class ProductsController extends Controller
                 'search'    => $search,
                 'order'     => $order,
             ],
-            'category'  => $category ?? null,
+            'category'      => $category ?? null,
+            // 'categoryTree'  => $categoryService->getCategoryTree(), // 使用 ViewComposer 往模板里注入了变量
         ]);
     }
 
