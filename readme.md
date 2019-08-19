@@ -2,7 +2,7 @@
 
 ## 导出表数据
 > mysqldump -uroot -t laravel-shop admin_menu admin_permissions admin_role_menu admin_role_permissions admin_role_users admin_roles admin_ user_permissions admin_users > database/admin.sql
-
+> 
 ## 清空数据
 > php artisan migrate:fresh 
 
@@ -15,3 +15,7 @@
 # 队列相关
 ## 执行队列
 > php artisan queue:work
+
+# 脚本
+## 备份管理后台数据
+> 加执行权限： chmod +x back_admin_db.sh
