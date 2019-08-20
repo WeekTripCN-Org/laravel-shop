@@ -230,4 +230,6 @@ return [
     ],
 
     'order_ttl' => 1800,  // 1800 秒后关闭订单
+
+    'proxy_url'=> env('PROXY_URL'),   // 本地内网穿透地址
 ];

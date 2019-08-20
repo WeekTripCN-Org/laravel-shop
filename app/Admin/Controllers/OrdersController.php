@@ -164,7 +164,7 @@ class OrdersController extends Controller
                     'total_fee'     => $order->total_amount * 100,
                     'refund_fee'    => $order->total_amount * 100,
                     'out_refund_no' => $refundNo,
-                    'notify_url'    => route('payment.wechat.refund_notify')
+                    'notify_url'    => proxy_url('payment.wechat.refund_notify')
                 ]);
                 // 将订单状态改成退款中
                 $order->update([
