@@ -19,6 +19,8 @@ class UserAddress extends Model
 
     protected $dates = ['last_used_at'];    // 时间日期类型
 
+    protected $appends = ['full_address'];
+
     /**
      * 一对多 关联关系
      * 一个 User 可以有多个 UserAddress , 一个 UserAddress 只能属于一个 User 。
