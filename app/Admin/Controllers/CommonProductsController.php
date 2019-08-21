@@ -101,6 +101,12 @@
             $form->text('stock', '剩余库存')->rules('required|integer|min:0');
         });
 
+        // 商品属性
+        $form->hasMany('properties', '商品属性', function(Form\NestedForm $form){
+          $form->text('name', '属性名')->rules('required');
+          $form->text('value', '属性值')->rules('required');
+        }); 
+
         // 定义事件回调，当模型即将保存时会触发这个回调
         // 在保存商品之前拿到所有 SKU 中最低的价格作为商品的价格，然后通过 $form->model()->price 存入到商品模型中
         $form->saving(function (Form $form) {
