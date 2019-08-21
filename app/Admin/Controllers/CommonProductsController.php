@@ -75,6 +75,7 @@
         $form->hidden('type')->value($this->getProductType());
 
         $form->text('title', '商品名称')->rules('required');
+        $form->text('long_title', '商品长标题')->rules('required');
 
         // 添加一个类目字段，与之前类目管理类似，使用 Ajax 的方式来搜索添加
         $form->select('category_id', '类目')->options(function($id) {
