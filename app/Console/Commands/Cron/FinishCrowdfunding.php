@@ -4,8 +4,6 @@ namespace App\Console\Commands\Cron;
 
 use App\Jobs\RefundCrowdfundingOrders;
 use App\Models\CrowdfundingProduct;
-use App\Models\Order;
-use App\Services\OrderService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -19,7 +17,7 @@ class FinishCrowdfunding extends Command
      *
      * @var string
      */
-    protected $signature = 'command:finish-crowdfunding';
+    protected $signature = 'cron:finish-crowdfunding';
 
     /**
      * The console command description.
@@ -27,16 +25,6 @@ class FinishCrowdfunding extends Command
      * @var string
      */
     protected $description = '众筹结束';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.
@@ -55,7 +43,7 @@ class FinishCrowdfunding extends Command
                 // 如果众筹目标金额大于实际众筹金额
                 if ($crowdfunding->target_amount > $crowdfunding->total_amount) {
                     // 调用众筹失败逻辑
-                    $this->crowdfundingSucceed($crowdfunding);
+                    $this->crowdfundingFailed($crowdfunding);
                 } else {
                     // 否则调用众筹成功逻辑
                     $this->crowdfundingSucceed($crowdfunding);
