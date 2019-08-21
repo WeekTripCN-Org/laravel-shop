@@ -19,3 +19,6 @@
 # 脚本
 ## 备份管理后台数据
 > 加执行权限： chmod +x back_admin_db.sh
+
+## 内网穿透运行方式
+> ngrok http -host-header=shop.test -region eu 80
