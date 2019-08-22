@@ -197,4 +197,51 @@ class OrderService
         break;
     }
   }
+
+  // 秒杀逻辑
+  public function seckill(User $user, UserAddress $address, ProductSku $sku)
+  {
+    // 开启事务
+    $order = \DB::transaction(function () use ($sku, $user, $address) {
+      // 更新地址最后使用时间
+      $address->update(['last_used_at' => Carbon::now()]);
+      // 创建一个订单
+      $order = new Order([
+        'address' => [
+          'address'     => $address->full_address,
+          'zip'         => $address->zip,
+          'contact_name'  => $address->contact_name,
+          'contact_phone' => $address->contact_phone,
+        ],
+        'remark'        => '',
+        'total_amount'  => $sku->price,
+        'type'          => Order::TYPE_SECKILL,
+      ]);
+
+      // 订单关联当前用户
+      $order->user()->associate($user);
+
+      $order->save();
+      // 创建一个新的订单项并于 SKU 关联
+      $item = $order->items()->make([
+        'amount'  => 1, // 秒杀商品只能一份
+        'price'   => $sku->price,
+      ]);
+      $item->product()->associate($sku->product_id);
+      $item->productSku()->associate($sku);
+      $item->save();
+
+      // 扣减对应的 SKU 库存
+      if ($sku->decreaseStock(1) <= 0) {
+        throw new InvalidRequestException('该商品库存不足');
+      }
+
+      return $order;
+    });
+
+    // 秒杀订单的自动关闭时间与普通订单不同
+    dispatch(new CloseOrder($order, config('app.seckill_order_ttl')));
+
+    return $order;
+  }
 }

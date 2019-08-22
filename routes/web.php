@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('coupon_codes/{code}', 'CouponCodesController@show')->name('coupon_codes.show');
 
     Route::post('crowdfunding_orders', 'OrdersController@crowdfunding')->name('crowdfunding_orders.store');
+    Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store');
 });
 
 // 和我的收藏冲突了，移到最下面
