@@ -199,19 +199,20 @@ class OrderService
   }
 
   // 秒杀逻辑
-  public function seckill(User $user, UserAddress $address, ProductSku $sku)
+  public function seckill(User $user, array $addressData, ProductSku $sku)
   {
+    print_r($addressData);exit;
     // 开启事务
-    $order = \DB::transaction(function () use ($sku, $user, $address) {
+    $order = \DB::transaction(function () use ($user, $addressData, $sku) {
       // 更新地址最后使用时间
-      $address->update(['last_used_at' => Carbon::now()]);
+      // $address->update(['last_used_at' => Carbon::now()]);
       // 创建一个订单
       $order = new Order([
         'address' => [
-          'address'     => $address->full_address,
-          'zip'         => $address->zip,
-          'contact_name'  => $address->contact_name,
-          'contact_phone' => $address->contact_phone,
+          'address'       => $addressData['province'].$addressData['city'].$addressData['district'].$addressData['address'],
+          'zip'           => $addressData['zip'],
+          'contact_name'  => $addressData['contact_name'],
+          'contact_phone' => $addressData['contact_phone'],
         ],
         'remark'        => '',
         'total_amount'  => $sku->price,

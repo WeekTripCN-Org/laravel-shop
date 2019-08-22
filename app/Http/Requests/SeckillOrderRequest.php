@@ -17,10 +17,19 @@ class SeckillOrderRequest extends Request
     public function rules()
     {
         return [
-            'address_id' => [
-                'required',
-                Rule::exists('user_addresses', 'id')->where('user_id', $this->user()->id)
-            ],
+            // 'address_id' => [
+            //     'required',
+            //     Rule::exists('user_addresses', 'id')->where('user_id', $this->user()->id)
+            // ],
+            // 将原本的 address_id 删除，替换成收货地址的详细信息
+            'address.province'      => 'required',
+            'address.city'          => 'required',
+            'address.district'      => 'required',
+            'address.address'       => 'required',
+            'address.zip'           => 'required',
+            'address.contact_name'  => 'required',
+            'address.contact_phone' => 'required',
+
             'sku_id'     => [
                 'required',
                 function ($attribute, $value, $fail) {

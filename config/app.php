@@ -231,7 +231,7 @@ return [
 
     'order_ttl' => 1800,  // 1800 秒后关闭订单
 
-    'seckill_order_ttl' => 600, // 秒杀订单支付有效时间
+    'seckill_order_ttl' => 10, // 秒杀订单支付有效时间
 
     'proxy_url'=> env('PROXY_URL'),   // 本地内网穿透地址
 ];
