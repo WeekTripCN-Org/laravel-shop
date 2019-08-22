@@ -1,4 +1,6 @@
 <?php
+// 秒杀下单 把秒杀接口放在路由的最开头，是因为 Laravel 匹配路由是从上往下匹配的，遇到第一个满足条件的路由就返回，所以放在最开头可以节省掉很多匹配路由的资源消耗。
+Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store');
 
 // Route::get('/', 'PagesController@root')->name('root')->middleware('verified');
 Route::redirect('/', '/products')->name('root');
@@ -56,7 +58,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('coupon_codes/{code}', 'CouponCodesController@show')->name('coupon_codes.show');
 
     Route::post('crowdfunding_orders', 'OrdersController@crowdfunding')->name('crowdfunding_orders.store');
-    Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store');
+    
 });
 
 // 和我的收藏冲突了，移到最下面
