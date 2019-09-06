@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.1.3",
+        "dingo/api": "^2.3",
         "elasticsearch/elasticsearch": "~6.0",
         "encore/laravel-admin": "1.6.11",
         "endroid/qr-code": "^3.6",
@@ -17,6 +18,7 @@
         "laravel/tinker": "^1.0",
         "overtrue/laravel-lang": "^3.0",
         "predis/predis": "^1.1",
+        "tymon/jwt-auth": "1.0.0-rc.4.1",
         "yansongda/pay": "^2.8"
     },
     "require-dev": {
