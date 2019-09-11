@@ -10,5 +10,8 @@ $api->version('v1', ['namespace' => 'App\Api\Controllers\V1'], function($api) {
     $api->post('refresh', 'AuthController@refresh');
     $api->post('me', 'AuthController@me');
     $api->post('register', 'AuthController@register');
+
+    $api->post('getProductsByCategoryId', 'ProductsController@getProductsByCategoryId');
+    
 });
 

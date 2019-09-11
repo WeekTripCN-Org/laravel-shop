@@ -162,6 +162,8 @@ return [
         Overtrue\LaravelLang\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        // EasySms 短信
+        App\Providers\EasySmsServiceProvider::class,
 
         /*
          * Package Service Providers...
