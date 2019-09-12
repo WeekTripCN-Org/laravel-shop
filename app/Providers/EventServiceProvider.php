@@ -33,6 +33,11 @@ class EventServiceProvider extends ServiceProvider
         OrderReviewed::class => [
             UpdateProductRating::class
         ],
+
+        // 第三方登录
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            'SocialiteProviders\Weixin\WeixinExtendSocialite@handle'
+        ],
     ];
 
     /**
