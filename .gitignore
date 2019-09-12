@@ -16,3 +16,4 @@ resources/wechat_pay/aliclient_key.pem
 resources/wechat_pay/apiclient_cert.pem
 public/js/app.js
 public/css/app.css
+public/uploads

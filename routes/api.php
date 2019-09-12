@@ -1,6 +1,9 @@
 <?php
 /**
  * Dingo/Api + jwt-auth
+ * 
+ * put 替换某个资源，需提供完整的资源信息
+ * patch 部分修改资源，提供部分资源信息
  */
 use Illuminate\Http\Request;
 
@@ -21,6 +24,11 @@ $api->version('v1', [
         $api->group(['middleware' => 'api.auth'], function($api) {
             // 当前登录用户信息
             $api->get('user', 'UsersController@me')->name('api.user.show');
+            // 上传图片资源
+            $api->post('images', 'ImagesController@store')->name('api.images.store');
+            // 编辑登录用户信息
+            $api->patch('user', 'UsersController@update')->name('api.user.update');
+
         });
 
         // 短信验证码
