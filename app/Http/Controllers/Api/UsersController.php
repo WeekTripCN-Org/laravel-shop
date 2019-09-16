@@ -51,7 +51,7 @@ class UsersController extends Controller
     {
         $user = $this->user();
 
-        $attibutes = $request->only(['name', 'email']);
+        $attibutes = $request->only(['name', 'email', 'registration_id']);
         
         if ($request->avatar_image_id) {
             $image = Image::find($request->avatar_image_id);

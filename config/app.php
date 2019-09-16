@@ -164,6 +164,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         // EasySms 短信
         App\Providers\EasySmsServiceProvider::class,
+        // JPush 极光推送
+        App\Providers\JpushServiceProvider::class,
 
         /*
          * Package Service Providers...
