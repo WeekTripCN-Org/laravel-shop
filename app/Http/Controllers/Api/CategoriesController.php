@@ -25,10 +25,9 @@ class CategoriesController extends Controller
     /**
      * 根据父类获取对应的子类数据
      */
-    public function show(CategoryRequest $request)
+    public function show($category)
     {
-        $parent_id = $request->parent_id;
-        $category = CategoryService::getCategoryTree($parent_id)->toArray();
+        $category = CategoryService::getCategoryTree($category)->toArray();
 
         $data = $this->parseCategoryData($category);
 

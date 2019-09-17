@@ -21,8 +21,8 @@ $api->version('v1', [
         // 游客可以访问的接口 {{{
         // 分类列表
         $api->get('categories', 'CategoriesController@index')->name('api.categories.index');
-        // 子类数据 post@parent_id
-        $api->post('categories', 'CategoriesController@show')->name('api.categories.show');
+        // 子类数据 get@parent_id
+        $api->get('categories/{category}', 'CategoriesController@show')->name('api.categories.show');
         // }}}
 
         
