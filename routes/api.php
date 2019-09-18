@@ -23,6 +23,11 @@ $api->version('v1', [
         $api->get('categories', 'CategoriesController@index')->name('api.categories.index');
         // 子类数据 get@parent_id
         $api->get('categories/{category}', 'CategoriesController@show')->name('api.categories.show');
+
+        // 商品列表
+        $api->get('products/{category}', 'ProductsController@index')->name('api.products.index');
+        // 商品详细
+        $api->get('product/{id}', 'ProductsController@show')->name('api.products.show');
         // }}}
 
         
