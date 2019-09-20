@@ -19,6 +19,7 @@ $api->version('v1', [
         'expires'    => config('api.rate_limits.sign.expires'),
     ], function($api) {
         // 游客可以访问的接口 {{{
+        
         // 分类列表
         $api->get('categories', 'CategoriesController@index')->name('api.categories.index');
         // 子类数据 get@parent_id
@@ -28,9 +29,8 @@ $api->version('v1', [
         $api->get('products/{category}', 'ProductsController@index')->name('api.products.index');
         // 商品详细
         $api->get('product/{id}', 'ProductsController@show')->name('api.products.show');
-        // }}}
-
         
+        // }}}
 
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {
@@ -41,6 +41,10 @@ $api->version('v1', [
             // 编辑登录用户信息
             $api->patch('user', 'UsersController@update')->name('api.user.update');
 
+            // 地址列表
+            $api->get('useraddresses', 'UserAddressesController@index')->name('api.useraddresses.index');
+            // 添加地址
+            $api->post('useraddresses', 'UserAddressesController@store')->name('api.useraddresses.store');
         });
 
         // 短信验证码
