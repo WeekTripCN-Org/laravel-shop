@@ -52,6 +52,12 @@ $api->version('v1', [
             $api->post('favorites', 'FavoritesController@store')->name('api.favorites.store');
             // 删除收藏商品
             $api->delete('favorites/{product_id}', 'FavoritesController@destroy')->name('api.favorites.destroy');
+
+            // 购物车商品
+            $api->get('carts', 'CartsController@index')->name('api.carts.index');
+            $api->post('carts', 'CartsController@store')->name('api.carts.store');
+            $api->delete('carts/{sku_id}', 'CartsController@destroy')->name('api.carts.destroy');
+
         });
 
         // 短信验证码
