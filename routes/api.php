@@ -41,10 +41,17 @@ $api->version('v1', [
             // 编辑登录用户信息
             $api->patch('user', 'UsersController@update')->name('api.user.update');
 
-            // 地址列表
+            // 收货地址列表
             $api->get('useraddresses', 'UserAddressesController@index')->name('api.useraddresses.index');
-            // 添加地址
+            // 添加收货地址
             $api->post('useraddresses', 'UserAddressesController@store')->name('api.useraddresses.store');
+
+            // 获取收藏商品
+            $api->get('favorites', 'FavoritesController@index')->name('api.favorites.index');
+            // 添加收藏商品
+            $api->post('favorites', 'FavoritesController@store')->name('api.favorites.store');
+            // 删除收藏商品
+            $api->delete('favorites/{product_id}', 'FavoritesController@destroy')->name('api.favorites.destroy');
         });
 
         // 短信验证码

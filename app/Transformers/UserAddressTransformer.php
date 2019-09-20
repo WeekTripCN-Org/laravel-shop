@@ -22,7 +22,7 @@ class UserAddressTransformer extends TransformerAbstract
       'zip'       => $userAddress->zip,
       'contact_name'     => $userAddress->contact_name,
       'contact_phone'    => $userAddress->contact_phone,
-      // 'last_used_at'     => (string)$userAddress->last_used_at,
+      'last_used_at'     => (string)$userAddress->last_used_at,
       'created_at'  => (string) $userAddress->created_at,
       'updated_at'  => (string) $userAddress->updated_at,
     ];
